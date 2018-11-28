@@ -2,7 +2,10 @@
 
 origin="$2"
 
-true_days=$(( ($(date --date="00:00 UTC" +%s) - $(date --date="$origin UTC" +%s) )/86400 + 1 ))
+case $( uname -s ) in
+    Darwin) true_days=$(( ($(gdate --date="00:00 UTC" +%s) - $(gdate --date="$origin UTC" +%s) )/86400 + 1 ));;
+    *)      true_days=$(( ($(date --date="00:00 UTC" +%s) - $(date --date="$origin UTC" +%s) )/86400 + 1 ));;
+esac
 
 decimal_date=$(awk "BEGIN{printf \"%.4f\n\", $true_days/10/10/4}")
 
